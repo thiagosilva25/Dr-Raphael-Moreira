@@ -32,19 +32,53 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+
   // ---- Slider Antes/Depois (arrastar para comparar) ----
   document.querySelectorAll('.ba-slider').forEach(slider => {
     const before = slider.querySelector('.ba-slider__before');
     const handle = slider.querySelector('.ba-slider__handle');
     const input = slider.querySelector('.ba-slider__input');
+    let isDragging = false;
 
-    const update = (value) => {
-      before.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
-      handle.style.left = `${value}%`;
+    const setPosition = (value) => {
+      const clamped = Math.min(100, Math.max(0, value));
+      before.style.clipPath = `inset(0 ${100 - clamped}% 0 0)`;
+      handle.style.left = `${clamped}%`;
+      input.value = clamped;
     };
 
-    input.addEventListener('input', (e) => update(e.target.value));
-    update(input.value); // posição inicial (50%)
+    const getPercentFromEvent = (e) => {
+      const rect = slider.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      return ((clientX - rect.left) / rect.width) * 100;
+    };
+
+    const startDrag = (e) => {
+      isDragging = true;
+      setPosition(getPercentFromEvent(e));
+    };
+    const moveDrag = (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      setPosition(getPercentFromEvent(e));
+    };
+    const endDrag = () => { isDragging = false; };
+
+    // Mouse
+    slider.addEventListener('mousedown', startDrag);
+    window.addEventListener('mousemove', moveDrag);
+    window.addEventListener('mouseup', endDrag);
+
+    // Touch
+    slider.addEventListener('touchstart', startDrag, { passive: true });
+    window.addEventListener('touchmove', moveDrag, { passive: false });
+    window.addEventListener('touchend', endDrag);
+
+    // Teclado (mantém acessibilidade via input range)
+    input.addEventListener('input', (e) => setPosition(Number(e.target.value)));
+
+    setPosition(50); // posição inicial
   });
 
   // ---- Filtro da galeria Antes/Depois ----
