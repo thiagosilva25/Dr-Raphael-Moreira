@@ -1,34 +1,77 @@
-// =========================================
-// Dr. Raphael Moreira - Odontologia
-// Script principal
-// =========================================
+// =========================================================
+// Raphael Moreira Odontologia — main.js
+// =========================================================
 
-// Configuração do WhatsApp
-const WHATSAPP_NUMBER = "5531XXXXXXXXX"; // ⚠️ substituir pelo número real com DDI+DDD
-const WHATSAPP_MESSAGE = "Olá, vim pelo site e gostaria de agendar uma consulta";
+document.addEventListener('DOMContentLoaded', () => {
 
-function getWhatsAppLink() {
-  const encodedMessage = encodeURIComponent(WHATSAPP_MESSAGE);
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-}
+  // ---- WhatsApp: link com mensagem pré-preenchida ----
+  // TODO: confirmar número final do WhatsApp do Dr. Raphael
+  const WHATSAPP_NUMBER = '5531982603364';
+  const WHATSAPP_MESSAGE = 'Olá, vim pelo site e gostaria de agendar uma consulta';
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Aplica o link do WhatsApp a todos os botões com essa classe
-  document.querySelectorAll(".btn-whatsapp, .whatsapp-float").forEach((btn) => {
-    btn.setAttribute("href", getWhatsAppLink());
-    btn.setAttribute("target", "_blank");
-    btn.setAttribute("rel", "noopener noreferrer");
-  });
+  document.querySelectorAll('#whatsapp-header, #whatsapp-hero, #whatsapp-location, #whatsapp-float')
+    .forEach(el => el.setAttribute('href', whatsappUrl));
 
-  // Scroll suave para links internos
-  document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const targetId = link.getAttribute("href");
-      const target = document.querySelector(targetId);
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: "smooth" });
-      }
+  // ---- Menu mobile ----
+  const navToggle = document.getElementById('nav-toggle');
+  const nav = document.getElementById('nav');
+
+  if (navToggle && nav) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('is-open');
+      navToggle.classList.toggle('is-active', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    nav.querySelectorAll('.nav__link').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('is-open');
+        navToggle.classList.remove('is-active');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // ---- Filtro da galeria Antes/Depois ----
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      const filter = btn.dataset.filter;
+
+      galleryItems.forEach(item => {
+        const match = filter === 'all' || item.dataset.category === filter;
+        item.classList.toggle('is-hidden', !match);
+      });
     });
   });
+
+  // ---- Reveal ao rolar a página ----
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    // fallback: sem suporte a IntersectionObserver, mostra tudo direto
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+
+  // ---- Ano dinâmico no rodapé ----
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
 });
