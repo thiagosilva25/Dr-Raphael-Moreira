@@ -426,9 +426,11 @@ h3 {
   font-weight: 600;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
-.hero__media-placeholder img{
+
+.hero__media-placeholder img {
   border-radius: var(--radius);
 }
+
 .hero__wave {
   display: block;
   width: 100%;
@@ -444,15 +446,79 @@ h3 {
   align-items: center;
 }
 
-.about__media-placeholder {
+.about-carousel {
+  position: relative;
   aspect-ratio: 4/3;
-  background: var(--color-bg-alt);
-  border: 1px dashed var(--color-border);
   border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.about-carousel__track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s ease;
+}
+
+.about-carousel__slide {
+  flex: 0 0 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.about-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--color-ink);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-ink-soft);
+  transition: background 0.2s ease;
+}
+
+.about-carousel__arrow:hover {
+  background: var(--color-white);
+}
+
+.about-carousel__arrow--prev {
+  left: 10px;
+}
+
+.about-carousel__arrow--next {
+  right: 10px;
+}
+
+.about-carousel__dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.about-carousel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0;
+}
+
+.about-carousel__dot.is-active {
+  background: var(--color-white);
 }
 
 .about__text {
@@ -588,16 +654,48 @@ h3 {
 .ba-slider__after {
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, var(--color-teal) 0%, var(--color-teal-dark) 100%);
-  /* TODO: trocar por background: url('../assets/images/depois-01.jpg') center/cover; */
+  background-size: cover;
+  background-position: center;
 }
 
 .ba-slider__before {
   position: absolute;
   inset: 0;
-  background: var(--color-gray, #9AA3A1);
-  /* TODO: trocar por background: url('../assets/images/antes-01.jpg') center/cover; */
+  background-size: cover;
+  background-position: center;
   clip-path: inset(0 50% 0 0);
+}
+
+.gallery-item:nth-child(1) .ba-slider__after {
+  background-image: url('../assets/images/depois-01.jpg');
+}
+
+.gallery-item:nth-child(1) .ba-slider__before {
+  background-image: url('../assets/images/antes-01.jpg');
+}
+
+.gallery-item:nth-child(2) .ba-slider__after {
+  background-image: url('../assets/images/depois-02.jpg');
+}
+
+.gallery-item:nth-child(2) .ba-slider__before {
+  background-image: url('../assets/images/antes-02.jpg');
+}
+
+.gallery-item:nth-child(3) .ba-slider__after {
+  background-image: url('../assets/images/depois-03.jpg');
+}
+
+.gallery-item:nth-child(3) .ba-slider__before {
+  background-image: url('../assets/images/antes-03.jpg');
+}
+
+.gallery-item:nth-child(4) .ba-slider__after {
+  background-image: url('../assets/images/depois-04.jpg');
+}
+
+.gallery-item:nth-child(4) .ba-slider__before {
+  background-image: url('../assets/images/antes-04.jpg');
 }
 
 .ba-slider__label {

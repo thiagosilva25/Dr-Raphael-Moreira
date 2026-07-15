@@ -86,7 +86,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // fallback: sem suporte a IntersectionObserver, mostra tudo direto
     revealEls.forEach(el => el.classList.add('is-visible'));
   }
+  // ---- Carrossel de fotos (seção Sobre) ----
+  const track = document.getElementById('about-carousel-track');
+  const dots = document.querySelectorAll('.about-carousel__dot');
+  const prevBtn = document.getElementById('carousel-prev');
+  const nextBtn = document.getElementById('carousel-next');
 
+  if (track && dots.length) {
+    let currentSlide = 0;
+    const totalSlides = dots.length;
+
+    const goToSlide = (index) => {
+      currentSlide = (index + totalSlides) % totalSlides;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === currentSlide));
+    };
+
+    prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => goToSlide(Number(dot.dataset.index)));
+    });
+  }
   // ---- Ano dinâmico no rodapé ----
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();

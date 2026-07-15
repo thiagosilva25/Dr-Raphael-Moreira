@@ -14,18 +14,17 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet">
-
+  <link rel="icon" href="./assets/images/tooth.png" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
   <a href="#top" class="skip-link">Pular para o conteúdo</a>
+
   <!-- ===== HEADER ===== -->
   <header class="header" id="header">
     <div class="container header__inner">
-      <a href="#top" class="header__logo">
-        <span class="header__logo-text">Dr. Raphael Moreira</span>
-      </a>
+      <a href="#top" class="header__logo" aria-label="Dr. Raphael Moreira - página inicial"></a>
 
       <nav class="nav" id="nav">
         <ul class="nav__list">
@@ -52,7 +51,6 @@
   </header>
 
   <main id="top">
-
     <!-- ===== HERO ===== -->
     <section class="hero" id="hero">
       <div class="container hero__inner">
@@ -87,9 +85,27 @@
     <!-- ===== SOBRE ===== -->
     <section class="section about" id="sobre">
       <div class="container about__inner">
-        <div class="about__media reveal" aria-hidden="true">
-          <!-- TODO: substituir por foto do consultório/Dr. Raphael -->
-          <div class="about__media-placeholder">Foto do consultório</div>
+        <div class="about__media reveal">
+          <div class="about-carousel" id="about-carousel">
+            <div class="about-carousel__track" id="about-carousel-track">
+              <!-- TODO: trocar background-image de cada slide pela foto real -->
+              <div class="about-carousel__slide" style="background-image: url('./assets/images/consultorio1.JPG')">
+              </div>
+              <div class="about-carousel__slide" style="background-image: url('./assets/images/interno.JPG')"></div>
+              <div class="about-carousel__slide" style="background-image: url('./assets/images/fachada.JPG')"></div>
+            </div>
+
+            <button class="about-carousel__arrow about-carousel__arrow--prev" id="carousel-prev"
+              aria-label="Foto anterior">‹</button>
+            <button class="about-carousel__arrow about-carousel__arrow--next" id="carousel-next"
+              aria-label="Próxima foto">›</button>
+
+            <div class="about-carousel__dots" id="carousel-dots">
+              <button class="about-carousel__dot is-active" data-index="0" aria-label="Ir para foto 1"></button>
+              <button class="about-carousel__dot" data-index="1" aria-label="Ir para foto 2"></button>
+              <button class="about-carousel__dot" data-index="2" aria-label="Ir para foto 3"></button>
+            </div>
+          </div>
         </div>
         <div class="about__content reveal">
           <p class="eyebrow">Sobre o Dr. Raphael</p>
@@ -224,62 +240,52 @@
     <!-- ===== GALERIA ANTES/DEPOIS ===== -->
     <section class="section gallery" id="galeria">
       <div class="container">
-        <p class="eyebrow eyebrow--center">Resultados reais</p>
+        <p class="eyebrow eyebrow--center">Facetas de Resina</p>
         <h2 class="section__title section__title--center">Antes &amp; Depois</h2>
 
-        <div class="gallery__filters" id="gallery-filters">
-          <button class="filter-btn is-active" data-filter="all" aria-pressed="true">Todos</button>
-          <button class="filter-btn" data-filter="clareamento" aria-pressed="false">Clareamento</button>
-          <button class="filter-btn" data-filter="facetas" aria-pressed="false">Facetas</button>
-          <button class="filter-btn" data-filter="proteses" aria-pressed="false">Próteses</button>
-        </div>
-
-        <!-- TODO: substituir placeholders pelas fotos reais (Instagram/consultório) -->
+        <!-- TODO: trocar os background-image de .ba-slider__before/.ba-slider__after pelas fotos reais -->
         <div class="gallery__grid" id="gallery-grid">
-          <div class="gallery-item reveal" data-category="clareamento">
+
+          <div class="gallery-item reveal">
             <div class="ba-slider">
               <div class="ba-slider__after"><span class="ba-slider__label ba-slider__label--after">Depois</span></div>
               <div class="ba-slider__before"><span class="ba-slider__label ba-slider__label--before">Antes</span></div>
-              <div class="ba-slider__handle">
-                <span class="ba-slider__handle-grip"></span>
-              </div>
+              <div class="ba-slider__handle"><span class="ba-slider__handle-grip"></span></div>
               <input type="range" class="ba-slider__input" min="0" max="100" value="50"
                 aria-label="Arraste para comparar antes e depois">
             </div>
           </div>
-          <div class="gallery-item reveal" data-category="facetas">
+
+          <div class="gallery-item reveal">
             <div class="ba-slider">
               <div class="ba-slider__after"><span class="ba-slider__label ba-slider__label--after">Depois</span></div>
               <div class="ba-slider__before"><span class="ba-slider__label ba-slider__label--before">Antes</span></div>
-              <div class="ba-slider__handle">
-                <span class="ba-slider__handle-grip"></span>
-              </div>
+              <div class="ba-slider__handle"><span class="ba-slider__handle-grip"></span></div>
               <input type="range" class="ba-slider__input" min="0" max="100" value="50"
                 aria-label="Arraste para comparar antes e depois">
             </div>
           </div>
-          <div class="gallery-item reveal" data-category="proteses">
+
+          <div class="gallery-item reveal">
             <div class="ba-slider">
               <div class="ba-slider__after"><span class="ba-slider__label ba-slider__label--after">Depois</span></div>
               <div class="ba-slider__before"><span class="ba-slider__label ba-slider__label--before">Antes</span></div>
-              <div class="ba-slider__handle">
-                <span class="ba-slider__handle-grip"></span>
-              </div>
+              <div class="ba-slider__handle"><span class="ba-slider__handle-grip"></span></div>
               <input type="range" class="ba-slider__input" min="0" max="100" value="50"
                 aria-label="Arraste para comparar antes e depois">
             </div>
           </div>
-          <div class="gallery-item reveal" data-category="clareamento">
+
+          <div class="gallery-item reveal">
             <div class="ba-slider">
               <div class="ba-slider__after"><span class="ba-slider__label ba-slider__label--after">Depois</span></div>
               <div class="ba-slider__before"><span class="ba-slider__label ba-slider__label--before">Antes</span></div>
-              <div class="ba-slider__handle">
-                <span class="ba-slider__handle-grip"></span>
-              </div>
+              <div class="ba-slider__handle"><span class="ba-slider__handle-grip"></span></div>
               <input type="range" class="ba-slider__input" min="0" max="100" value="50"
                 aria-label="Arraste para comparar antes e depois">
             </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -292,7 +298,8 @@
         <h2 class="section__title section__title--center">Avaliações no Google</h2>
         <!-- Elfsight Google Reviews | Untitled Google Reviews -->
         <script src="https://elfsightcdn.com/platform.js" async></script>
-        <div class="elfsight-app-45a30f34-4b9c-4f9a-8ed1-da9151013350" data-elfsight-app-lazy></div>
+        <div class="elfsight-app-45a30f34-4b9c-4f9a-8ed1-da9151013350" style="visibility: hidden"
+          data-elfsight-app-lazy></div>
 
         <!-- Link do Google Business: https://share.google/FizXBiq9aHfG5l11f -->
         <!-- TODO: substituir por widget de embed (ex: EmbedSocial, Elfsight, ou iframe) -->
