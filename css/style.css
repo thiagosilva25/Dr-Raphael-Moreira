@@ -426,7 +426,9 @@ h3 {
   font-weight: 600;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
-
+.hero__media-placeholder img{
+  border-radius: var(--radius);
+}
 .hero__wave {
   display: block;
   width: 100%;
