@@ -1,25 +1,36 @@
-# Site - Dr. Raphael Moreira | Odontologia
-
-Site institucional para clínica odontológica do Dr. Raphael Moreira, em Belo Horizonte - MG.
-
-## Objetivo
-Estabelecer presença profissional online e gerar agendamentos de consulta via WhatsApp.
-
-## Estrutura do site
-- **Hero** — CTA principal + botão de WhatsApp
-- **Sobre** — Biografia do Dr. Raphael
-- **Tratamentos** — Cards com ícones dos serviços oferecidos
-- **Antes/Depois** — Galeria com filtros por categoria
-- **Avaliações Google** — Embed do Google Reviews
-- **Localização e Horários** — Endereço, mapa e horário de funcionamento
-
-## Estilo visual
-Clean e profissional, tons suaves (branco + azul/verde), tipografia moderna,
-microanimações discretas (fade-in, hover) — sem animações pesadas, por performance.
-
-## Estrutura de pastas
+# Dr. Raphael Moreira — Site Institucional
+ 
+Site institucional desenvolvido para o **Dr. Raphael Moreira**, cirurgião-dentista em Belo Horizonte (MG), com foco em apresentação profissional e conversão de visitantes em agendamentos via WhatsApp.
+ 
+🔗 **Site no ar:** [dr-raphael-moreira.vercel.app](https://dr-raphael-moreira.vercel.app/)
+ 
+![Preview do site](./assets/images/preview.png)
+ 
+---
+ 
+## ✨ Funcionalidades
+ 
+- **Design responsivo** — construído mobile-first, testado em diferentes tamanhos de tela
+- **Slider interativo de Antes/Depois** — comparação por arraste (mouse e touch), com suporte a teclado para acessibilidade
+- **Carrossel de fotos** — galeria do consultório com navegação por setas e indicadores
+- **Avaliações do Google integradas** — via widget Elfsight, atualizado automaticamente
+- **Mapa incorporado** — localização exata do consultório via Google Maps embed
+- **Agendamento via WhatsApp** — botões com mensagem pré-preenchida, incluindo botão flutuante fixo
+- **Animações leves ao rolar** — fade-in com `IntersectionObserver`, sem impacto de performance
+- **Acessibilidade** — skip-link, `aria-labels`, contraste de cor revisado, navegação por teclado
+## 🛠️ Tecnologias
+ 
+- **HTML5** semântico
+- **CSS3** puro (custom properties, Grid, Flexbox, `clip-path`)
+- **JavaScript** vanilla (sem frameworks ou dependências)
+- **Vercel** para deploy e hospedagem
+- **Elfsight** para o widget de avaliações do Google
+Projeto construído sem frameworks ou bibliotecas externas, priorizando performance e tempo de carregamento.
+ 
+## 📁 Estrutura do projeto
+ 
 ```
-site-dr-raphael/
+site-dr-raphael-moreira/
 ├── index.html
 ├── css/
 │   └── style.css
@@ -30,19 +41,40 @@ site-dr-raphael/
 │   └── icons/
 └── README.md
 ```
-
-## Pendências de conteúdo (aguardando Dr. Raphael)
-- [ ] Nome definitivo da clínica e logo
-- [ ] Identidade de cores/marca
-- [ ] Texto biográfico para seção "Sobre"
-- [ ] Lista confirmada de tratamentos + descrições curtas
-- [ ] Link do perfil Google Business
-- [ ] Horário de funcionamento
-- [ ] Fotos de antes/depois (Instagram)
-
-## Dados já confirmados
-- **Endereço:** Rua Frei Leopoldo, 20 - Ouro Preto, Belo Horizonte - MG, 31310-190
-- **WhatsApp:** número + mensagem pré-definida ("Olá, vim pelo site e gostaria de agendar uma consulta")
-
-## Deploy
-Recomendado: [Vercel](https://vercel.com) ou [Netlify](https://netlify.com), com deploy automático a cada push na branch `main`.
+ 
+## 🚀 Rodando localmente
+ 
+Como é um projeto estático (sem build step), basta abrir o `index.html` direto no navegador, ou servir localmente:
+ 
+```bash
+# Clone o repositório
+git clone https://github.com/thiagosilva25/site-dr-raphael-moreira.git
+cd site-dr-raphael-moreira
+ 
+# Sirva com qualquer servidor local, por exemplo:
+python3 -m http.server 8080
+# ou
+npx serve
+```
+ 
+## 📌 Destaque técnico: Slider de Antes/Depois
+ 
+O componente de comparação foi construído do zero em JavaScript puro — sem bibliotecas de terceiros — captando eventos de mouse e touch manualmente para garantir uma experiência de arraste consistente em qualquer dispositivo:
+ 
+```js
+const getPercentFromEvent = (e) => {
+  const rect = slider.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  return ((clientX - rect.left) / rect.width) * 100;
+};
+```
+ 
+O corte visual entre as duas imagens é feito com `clip-path`, atualizado em tempo real conforme o usuário arrasta.
+ 
+## 👤 Autor
+ 
+Desenvolvido por [Thiago Rocha da Silva](https://github.com/thiagosilva25).
+ 
+## 📄 Licença
+ 
+Projeto de uso exclusivo do Dr. Raphael Moreira. Código disponibilizado publicamente apenas para fins de portfólio.
