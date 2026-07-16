@@ -1077,3 +1077,7 @@ body.intro-active {
   .intro-splash { transition: none; }
   .intro-splash__logo { animation: none; opacity: 1; transform: none; }
 }
+.icon-whatsapp {
+  fill: currentColor;
+  flex-shrink: 0;
+}
