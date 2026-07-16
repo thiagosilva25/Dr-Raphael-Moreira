@@ -35,51 +35,85 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ---- Slider Antes/Depois (arrastar para comparar) ----
-  document.querySelectorAll('.ba-slider').forEach(slider => {
-    const before = slider.querySelector('.ba-slider__before');
-    const handle = slider.querySelector('.ba-slider__handle');
-    const input = slider.querySelector('.ba-slider__input');
-    let isDragging = false;
+document.querySelectorAll('.ba-slider').forEach(slider => {
+  const before = slider.querySelector('.ba-slider__before');
+  const handle = slider.querySelector('.ba-slider__handle');
+  const input = slider.querySelector('.ba-slider__input');
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let axisLocked = null; // 'x' ou 'y', decidido no primeiro movimento
 
-    const setPosition = (value) => {
-      const clamped = Math.min(100, Math.max(0, value));
-      before.style.clipPath = `inset(0 ${100 - clamped}% 0 0)`;
-      handle.style.left = `${clamped}%`;
-      input.value = clamped;
-    };
+  const setPosition = (value) => {
+    const clamped = Math.min(100, Math.max(0, value));
+    before.style.clipPath = `inset(0 ${100 - clamped}% 0 0)`;
+    handle.style.left = `${clamped}%`;
+    input.value = clamped;
+  };
 
-    const getPercentFromEvent = (e) => {
-      const rect = slider.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      return ((clientX - rect.left) / rect.width) * 100;
-    };
+  const getPercentFromEvent = (e) => {
+    const rect = slider.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    return ((clientX - rect.left) / rect.width) * 100;
+  };
 
-    const startDrag = (e) => {
-      isDragging = true;
+  // ---- Mouse (comportamento igual, sem mudança) ----
+  const startDragMouse = (e) => {
+    isDragging = true;
+    setPosition(getPercentFromEvent(e));
+  };
+  const moveDragMouse = (e) => {
+    if (!isDragging) return;
+    setPosition(getPercentFromEvent(e));
+  };
+  const endDragMouse = () => { isDragging = false; };
+
+  slider.addEventListener('mousedown', startDragMouse);
+  window.addEventListener('mousemove', moveDragMouse);
+  window.addEventListener('mouseup', endDragMouse);
+
+  // ---- Touch (agora com detecção de direção) ----
+  const startDragTouch = (e) => {
+    const touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+    axisLocked = null;
+    isDragging = true;
+  };
+
+  const moveDragTouch = (e) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const deltaX = Math.abs(touch.clientX - startX);
+    const deltaY = Math.abs(touch.clientY - startY);
+
+    // Decide o eixo só uma vez, assim que o movimento for perceptível
+    if (axisLocked === null && (deltaX > 6 || deltaY > 6)) {
+      axisLocked = deltaX > deltaY ? 'x' : 'y';
+    }
+
+    if (axisLocked === 'x') {
+      e.preventDefault(); // é arraste do slider, bloqueia o scroll da página
       setPosition(getPercentFromEvent(e));
-    };
-    const moveDrag = (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      setPosition(getPercentFromEvent(e));
-    };
-    const endDrag = () => { isDragging = false; };
+    }
+    // se axisLocked === 'y', não faz nada — deixa o navegador rolar a página normalmente
+  };
 
-    // Mouse
-    slider.addEventListener('mousedown', startDrag);
-    window.addEventListener('mousemove', moveDrag);
-    window.addEventListener('mouseup', endDrag);
+  const endDragTouch = () => {
+    isDragging = false;
+    axisLocked = null;
+  };
 
-    // Touch
-    slider.addEventListener('touchstart', startDrag, { passive: true });
-    window.addEventListener('touchmove', moveDrag, { passive: false });
-    window.addEventListener('touchend', endDrag);
+  slider.addEventListener('touchstart', startDragTouch, { passive: true });
+  slider.addEventListener('touchmove', moveDragTouch, { passive: false });
+  slider.addEventListener('touchend', endDragTouch);
 
-    // Teclado (mantém acessibilidade via input range)
-    input.addEventListener('input', (e) => setPosition(Number(e.target.value)));
+  // Teclado (acessibilidade)
+  input.addEventListener('input', (e) => setPosition(Number(e.target.value)));
 
-    setPosition(50); // posição inicial
-  });
+  setPosition(50); // posição inicial
+});
+
 
   // ---- Filtro da galeria Antes/Depois ----
   const filterButtons = document.querySelectorAll('.filter-btn');
